@@ -1,6 +1,5 @@
 package com.personal.project.api.domain.product;
 
-import com.personal.project.api.dto.RequestProductDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,12 +22,6 @@ public class Product {
 
     private Integer price_in_cents;
 
-    private Boolean active;
-
-    public Product(RequestProductDTO requestProduct){
-      this.name = requestProduct.name();
-      this.price_in_cents = requestProduct.price_in_cents();
-      this.active = true;
-    }
+    private Boolean active = true;
 
 }
