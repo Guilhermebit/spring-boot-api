@@ -4,4 +4,4 @@ Criação de uma API REST utilizando o framework SpringBoot
 - Java 17
 - SpringBoot 3.1.4
 - PostgreSQL
-- Ferramentas para testar APIs como Postman, Insomnia
+- Ferramenta para testar APIs como Postman, Insomnia
