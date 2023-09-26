@@ -1,4 +1,4 @@
-package com.personal.project.api.domain.user;
+package com.personal.project.api.models.user;
 
 /*
 import jakarta.persistence.*;
