@@ -9,4 +9,4 @@ Project of an API built using Java, JavaSpring, PostgreSQL and JWT for authentic
 - Java 17
 - SpringBoot 3.1.4
 - PostgreSQL
-- Tool to test APIs as Postman, Insomnia
+- A Tool for testing the API as Postman, Insomnia
