@@ -1,7 +1,7 @@
 # SpringBootAPI
-Criação de uma API REST utilizando o framework SpringBoot
-# Pré-Requisitos
+Project of an API built using Java, JavaSpring, PostgreSQL
+# Prerequisites
 - Java 17
 - SpringBoot 3.1.4
 - PostgreSQL
-- Ferramenta para testar APIs como Postman, Insomnia
+- Tool to test APIs as Postman, Insomnia
