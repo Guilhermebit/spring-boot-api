@@ -17,5 +17,26 @@ Project of an API (CRUD)
 - Queries with SpringData JPA
 - Error response handling
 # Installation
-`$ git clone https://github.com/Guilhermebit/SpringBootAPI.git`
+1. Clone the repository:
+```
+$ git clone https://github.com/Guilhermebit/SpringBootAPI.git
+```
+2. Install dependencies with Maven
+# Usage
+1. Start application with Maven
+2. The API will be accessible at http://localhost:8080
+# Api EndPoints
+To test the HTTP requests below, the Postman tool was used.
+Here you can download Postman: https://www.postman.com/downloads/
+```
+GET / - Retrieve a list of all data.
 
+POST / - Register a new data.
+
+PUT / - Alter data.
+
+DELETE / - Delete data.
+```
+# Database
+PostgreSQL was used as database for the project, and the migrations was managed using Flyway.
+Here you can download PostgreSQL: https://www.postgresql.org/download/
