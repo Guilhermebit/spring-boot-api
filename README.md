@@ -160,7 +160,7 @@ Here you can download Postman: https://www.postman.com/downloads/
            "status": 200
       }
       ```
-## Get product between a range of values 
+## Get the product between a range of values 
 `GET /product/value/{3000}/{5000}`
 + Request (application/json)
     + Headers
