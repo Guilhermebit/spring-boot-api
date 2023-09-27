@@ -16,8 +16,6 @@ Project of an API (CRUD)
 - Dependence Injection
 - Queries with SpringData JPA
 - Error response handling
-# How To Execute
-- Java 17
-- SpringBoot 3.1.4
-- PostgreSQL
-- A Tool for testing the API as Postman, Insomnia
+# Installation
+`$ git clone https://github.com/Guilhermebit/SpringBootAPI.git`
+
