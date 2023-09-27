@@ -34,8 +34,8 @@ public class ErrorResponse {
     }
 
     public String toJson() {
-        return "{\"status\": " + getStatus() + "123, " +
-                "\"message\": \"" + getMessage() + "123\"}";
+        return "{\"status\": " + getStatus() + ", " +
+                "\"message\": \"" + getMessage() + "\"}";
     }
 
 }
