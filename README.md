@@ -5,30 +5,67 @@
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
 Project of an API (CRUD)
-# Tecnologies
+## Tecnologies
 - SpringBoot
 - Spring MVC
 - Spring Data JPA
 - PostgreSQL
 - JWT
-# Practices Adopted
+## Practices Adopted
 - SOLID
 - Dependence Injection
 - Queries with SpringData JPA
 - Error response handling
-# Installation
+## Installation
 1. Clone the repository:
 ```
 $ git clone https://github.com/Guilhermebit/SpringBootAPI.git
 ```
 2. Install dependencies with Maven
-# Usage
+## Usage
 1. Start application with Maven
 2. The API will be accessible at http://localhost:8080
 # Api EndPoints
 To test the HTTP requests below, the Postman tool was used.<br />
 Here you can download Postman: https://www.postman.com/downloads/
-# Products [GET /product]
+- OBS: The user must have the "ADMIN" role to access the product routes
+## Insert a new product 
+`POST /product`
++ Request (application/json)
+    + Headers
+      
+         Authorization: Bearer [access_token]
+
+    + Body
+ 
+       ```json
+       {
+           "name": "t-shirt",
+           "price_in_cents": 5000
+       }
+       ```
+      
++ Response 201 (application/json)
+    + Body
+  
+      ```json
+      {
+          "data": [
+          {
+                  "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
+                  "name": "t-shirt",
+                  "price_in_cents": 5000,
+                  "active": true
+          }
+          ],
+           "message": "",
+           "status": 201
+      }
+      ```
+
++ 
+## Get all products 
+`GET /product`
 + Request (application/json)
     + Headers
       
@@ -50,18 +87,114 @@ Here you can download Postman: https://www.postman.com/downloads/
            "message": "",
            "status": 200
       }
-
       ```
+## Get one product 
+`GET /product/{id}`
++ Request (application/json)
+    + Headers
+      
+         Authorization: Bearer [access_token]
+
++ Response 200 (application/json)
+    + Body
   
-```
-GET / - Retrieve a list of all data.
+      ```json
+      {
+          "data": [
+          {
+                  "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
+                  "name": "t-shirt",
+                  "price_in_cents": 5000,
+                  "active": true
+          }
+          ],
+           "message": "",
+           "status": 200
+      }
+      ```
+## Get product between price 
+`GET /product/value/{3000}/{5000}`
++ Request (application/json)
+    + Headers
+      
+         Authorization: Bearer [access_token]
 
-POST / - Register a new data.
++ Response 200 (application/json)
+    + Body
+  
+      ```json
+      {
+          "data": [
+          {
+                  "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
+                  "name": "t-shirt",
+                  "price_in_cents": 5000,
+                  "active": true
+          }
+          ],
+           "message": "",
+           "status": 200
+      }
+      ```
+## Update a product
+`PUT /product`
++ Request (application/json)
+    + Headers
+      
+         Authorization: Bearer [access_token]
 
-PUT / - Alter data.
+    + Body
+ 
+       ```json
+       {
+           "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
+           "name": "t-shirt blue",
+           "price_in_cents": 3000
+       }
+       ```
 
-DELETE / - Delete data.
-```
++ Response 200 (application/json)
+    + Body
+  
+      ```json
+      {
+          "data": [
+          {
+                  "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
+                  "name": "t-shirt blue",
+                  "price_in_cents": 3000,
+                  "active": true
+          }
+          ],
+           "message": "",
+           "status": 200
+      }
+      ```
+## Delete a product
+`DELETE /product/{id}` 
+- OBS: The data is not deleted directly, instead its status is changed to "false" 
++ Request (application/json)
+    + Headers
+      
+         Authorization: Bearer [access_token]
+
++ Response 200 (application/json)
+    + Body
+  
+      ```json
+      {
+          "data": [
+          {
+                  "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
+                  "name": "t-shirt blue",
+                  "price_in_cents": 3000,
+                  "active": false
+          }
+          ],
+           "message": "",
+           "status": 200
+      }
+      ```
 # Database
 PostgreSQL was used as database for the project, and the migrations was managed using Flyway.<br />
 Here you can download PostgreSQL: https://www.postgresql.org/download/
