@@ -13,9 +13,9 @@ Project of an API (CRUD)
 - JWT
 ## Practices Adopted
 - SOLID
-- Dependence Injection
+- Dependency Injection
 - Queries with SpringData JPA
-- Error response handling
+- Error Handling
 ## Installation
 1. Clone the repository:
 ```
