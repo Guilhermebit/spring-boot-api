@@ -42,10 +42,20 @@ Here you can download Postman: https://www.postman.com/downloads/
            "role": "USER"
        }
        ```
+
++ Response 200 (application/json)
+    + Body
+  
+      ```json
+      {
+           "data": "null",
+           "message": "Your registration was successful",
+           "status": 200
+      }
+      ```
 ## Login 
 `POST /auth/login`
 + Request (application/json)
-
     + Body
  
        ```json
@@ -54,6 +64,21 @@ Here you can download Postman: https://www.postman.com/downloads/
            "password": 1234,
        }
        ```
+       
++ Response 200 (application/json)
+    + Body
+  
+      ```json
+      {
+          "data": [
+          {
+                  "token": "access_token",
+          }
+          ],
+           "message": "access_token",
+           "status": 200
+      }
+      ```
 ## Insert a new product 
 `POST /product`
 + Request (application/json)
