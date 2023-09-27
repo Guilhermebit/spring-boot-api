@@ -28,10 +28,7 @@ $ git clone https://github.com/Guilhermebit/SpringBootAPI.git
 # Api EndPoints
 To test the HTTP requests below, the Postman tool was used.<br />
 Here you can download Postman: https://www.postman.com/downloads/
-+ OBS: In addition to the "token" the user must have the "ADMIN" role to access the HTTP methods:
-    + POST
-    + PUT
-    + DELETE
++ OBS: To access the HTTP methods `POST`, `PUT`, `DELETE`, the user must have the token and an "ADMIN" role.
 ## Register a new user 
 `POST /auth/register`
 + Request (application/json)
