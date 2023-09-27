@@ -26,7 +26,7 @@ $ git clone https://github.com/Guilhermebit/SpringBootAPI.git
 1. Start application with Maven
 2. The API will be accessible at http://localhost:8080
 # Api EndPoints
-To test the HTTP requests below, the Postman tool was used.
+To test the HTTP requests below, the Postman tool was used.<br/>
 Here you can download Postman: https://www.postman.com/downloads/
 ```
 GET / - Retrieve a list of all data.
