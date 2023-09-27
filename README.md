@@ -28,7 +28,26 @@ $ git clone https://github.com/Guilhermebit/SpringBootAPI.git
 # Api EndPoints
 To test the HTTP requests below, the Postman tool was used.<br />
 Here you can download Postman: https://www.postman.com/downloads/
-- OBS: The user must have the "ADMIN" role to access the product routes
++ OBS: In addition to the "token" the user must have the "ADMIN" role to access the HTTP methods:
+    + POST
+    + PUT
+    + DELETE
+## Register a new user 
+`POST /auth/register`
++ Request (application/json)
+
+    + Body
+ 
+       ```json
+       {
+           "login": "User1",
+           "password": 1234,
+           "role": "USER"
+       }
+       ```
+       
++ Response 200 (application/json)
+    + Body
 ## Insert a new product 
 `POST /product`
 + Request (application/json)
@@ -62,8 +81,6 @@ Here you can download Postman: https://www.postman.com/downloads/
            "status": 201
       }
       ```
-
-+ 
 ## Get all products 
 `GET /product`
 + Request (application/json)
