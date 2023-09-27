@@ -2,6 +2,7 @@ package com.personal.project.api.services;
 
 import com.personal.project.api.models.product.Product;
 import com.personal.project.api.repositories.ProductRepository;
+import com.personal.project.api.services.exceptions.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -17,25 +18,16 @@ public class ProductService {
 
 
     private Product findById(String id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
+        return productRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
                   "Product not found! Id: " + id + ", Tipo: " + Product.class.getName()));
-        return product;
     }
 
     public List<Product> findProductBetweenPrice(Integer price1, Integer price2) {
-        List<Product> list = productRepository.findByRangeOfPrices(price1, price2);
-        if(list == null)
-           return null;
-
-        return list;
+        return productRepository.findByRangeOfPrices(price1, price2);
     }
 
     public Product findUniqueProduct(String id) {
-        Product product = findById(id);
-        if(product == null)
-           return null;
-
-        return product;
+        return findById(id);
     }
 
     public List<Product> findAllProducts() {
@@ -45,7 +37,7 @@ public class ProductService {
     @Transactional
     public Product create(Product obj) {
 
-        if(productRepository.existsById(obj.getId()))
+        if(obj.getId() != null && productRepository.existsById(obj.getId()))
            throw new DataIntegrityViolationException("Id já existe!");
 
         obj.setActive(true);
@@ -57,8 +49,6 @@ public class ProductService {
     public Product update(Product obj) {
 
         Product product = findById(obj.getId());
-        if(product == null)
-           return null;
 
         //Product product = optionalProduct.get();
         product.setName(obj.getName());
@@ -69,14 +59,11 @@ public class ProductService {
     }
 
     @Transactional
-    public void delete(String id) {
-        // OBS: I will handle exceptions here
+    public Product delete(String id) {
         Product product = findById(id);
-        if(product == null)
-           return;
-
         //Product product = optionalProduct.get();
         product.setActive(false);
+        return product;
     }
 
 }
