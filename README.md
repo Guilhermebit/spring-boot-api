@@ -28,6 +28,21 @@ $ git clone https://github.com/Guilhermebit/SpringBootAPI.git
 # Api EndPoints
 To test the HTTP requests below, the Postman tool was used.<br />
 Here you can download Postman: https://www.postman.com/downloads/
+# Products [/products]
++ Request (application/json)
+    + Headers
+         Authorization: Bearer [access_token]
++ Response 200 (application/json)
+    + Body
+      
+      ```json
+      {
+         "login": "User1",
+         "password": "1234",
+         "role": "ADMIN"
+      } 
+      ```
+  
 ```
 GET / - Retrieve a list of all data.
 
