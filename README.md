@@ -45,9 +45,18 @@ Here you can download Postman: https://www.postman.com/downloads/
            "role": "USER"
        }
        ```
-       
-+ Response 200 (application/json)
+## Login 
+`POST /auth/login`
++ Request (application/json)
+
     + Body
+ 
+       ```json
+       {
+           "login": "User1",
+           "password": 1234,
+       }
+       ```
 ## Insert a new product 
 `POST /product`
 + Request (application/json)
