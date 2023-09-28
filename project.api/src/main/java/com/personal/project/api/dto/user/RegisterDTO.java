@@ -1,4 +1,4 @@
-package com.personal.project.api.models.user.dto;
+package com.personal.project.api.dto.user;
 
 import com.personal.project.api.models.user.UserRole;
 

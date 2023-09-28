@@ -33,6 +33,6 @@ public class Product {
     private Integer price_in_cents;
 
     @Column(name = "active")
-    private Boolean active = true;
+    private Boolean active;
 
 }

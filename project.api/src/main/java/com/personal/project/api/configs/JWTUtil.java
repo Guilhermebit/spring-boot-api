@@ -19,12 +19,11 @@ public class JWTUtil {
     public String generateToken(User user) {
           try{
               Algorithm algorithm = Algorithm.HMAC256(secret);
-              String token = JWT.create()
+              return JWT.create()
                       .withIssuer("spring-rest-api")
                       .withSubject(user.getLogin())
                       .withExpiresAt(genExpirationData())
                       .sign(algorithm);
-              return token;
           } catch(JWTCreationException exception) {
               throw new RuntimeException("Error while generating token.", exception);
           }
