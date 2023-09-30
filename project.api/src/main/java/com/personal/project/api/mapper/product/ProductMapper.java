@@ -2,14 +2,10 @@ package com.personal.project.api.mapper.product;
 
 import com.personal.project.api.models.product.Product;
 import com.personal.project.api.dto.product.ProductDTO;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
-@RequiredArgsConstructor
 public class ProductMapper {
 
     public static ProductDTO mapToProductDTO(Product product) {

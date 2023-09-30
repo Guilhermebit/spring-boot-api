@@ -24,18 +24,18 @@ public class AuthenticationService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean userExists(RegisterDTO registerDTO) {
-        return userRepository.findByLogin(registerDTO.login()) != null;
+    public boolean userExists(String login) {
+        return userRepository.findByLogin(login) != null;
     }
 
     public void registerUser(RegisterDTO registerDTO) {
-        String encryptPass = new BCryptPasswordEncoder().encode(registerDTO.password());
-        User newUser = new User(registerDTO.login(), encryptPass, registerDTO.role());
+        String encryptPass = new BCryptPasswordEncoder().encode(registerDTO.getPassword());
+        User newUser = new User(registerDTO.getLogin(), encryptPass, registerDTO.getRole());
         userRepository.save(newUser);
     }
 
     public String loginUser(AuthenticationDTO authDTO) {
-        var userPass = new UsernamePasswordAuthenticationToken(authDTO.login(), authDTO.password());
+        var userPass = new UsernamePasswordAuthenticationToken(authDTO.getLogin(), authDTO.getPassword());
         var auth = this.authManager.authenticate(userPass);
 
         return jwtUtil.generateToken((User)auth.getPrincipal());

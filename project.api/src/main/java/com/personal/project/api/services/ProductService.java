@@ -10,11 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
-public class ProductService {
+public class ProductService implements ProductInterface {
 
     @Autowired
     private ProductRepository productRepository;
@@ -25,20 +24,24 @@ public class ProductService {
                   "Product not found! Id: " + id + ", Type: " + Product.class.getName()));
     }
 
+    @Override
     public List<ProductDTO> findProductBetweenPrice(Integer price1, Integer price2) {
         List<Product> products = productRepository.findByRangeOfPrices(price1, price2);
         return ProductMapper.toDTOList(products);
     }
 
+    @Override
     public ProductDTO findUniqueProduct(String id) {
         return ProductMapper.mapToProductDTO(findById(id));
     }
 
+    @Override
     public List<ProductDTO> findAllProducts() {
         List<Product> products = productRepository.findAllByActiveTrue();
         return ProductMapper.toDTOList(products);
     }
 
+    @Override
     @Transactional
     public ProductDTO create(ProductDTO productDTO) {
 
@@ -54,6 +57,7 @@ public class ProductService {
 
     }
 
+    @Override
     @Transactional
     public ProductDTO update(ProductDTO obj) {
 
@@ -67,6 +71,7 @@ public class ProductService {
         return ProductMapper.mapToProductDTO(updatedProduct);
     }
 
+    @Override
     @Transactional
     public void delete(String id) {
         Product product = findById(id);

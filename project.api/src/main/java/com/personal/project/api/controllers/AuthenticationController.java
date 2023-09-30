@@ -29,7 +29,7 @@ public class AuthenticationController {
 
     @PostMapping("register")
     public ResponseEntity<Object> registerUser(@RequestBody @Valid RegisterDTO registerDTO) {
-            boolean userExists = authService.userExists(registerDTO);
+            boolean userExists = authService.userExists(registerDTO.getLogin());
             if(userExists)
                return ResponseHandler.responseBuilder(HttpStatus.BAD_REQUEST, "User already registered!", null);
 

@@ -1,4 +1,14 @@
 package com.personal.project.api.dto.user;
 
-public record LoginResponseDTO(String token) {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class LoginResponseDTO {
+    private String login;
 }
