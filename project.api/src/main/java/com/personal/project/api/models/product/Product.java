@@ -23,13 +23,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Size(min = 2)
     @Column(name = "name")
-    @NotBlank(message = "Name should not be empty or null.")
     private String name;
 
     @Column(name = "price_in_cents")
-    @NotNull(message = "Price should not be empty or null.")
     private Integer price_in_cents;
 
     @Column(name = "active")
