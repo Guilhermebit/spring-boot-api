@@ -6,6 +6,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import com.personal.project.api.services.exceptions.ObjectNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -21,6 +23,31 @@ public class GlobalExceptionHandler { //extends ResponseEntityExceptionHandler {
 
     @Value("${server.error.include-exception}")
     private boolean printStackTrace;
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<Object> handleAuthenticationException(
+            AuthenticationException authenticationException,
+            WebRequest request) {
+        return buildErrorResponse(
+                authenticationException,
+                "Username or password are invalid",/*authenticationException.getMessage()*/
+                HttpStatus.UNAUTHORIZED,
+                request);
+    }
+
+    // To handle the JSON parse error Exceptions
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> handleAuthenticationException(
+            HttpMessageNotReadableException httpMessageNotReadableException,
+            WebRequest request) {
+        return buildErrorResponse(
+                httpMessageNotReadableException,
+                httpMessageNotReadableException.getMessage(),
+                HttpStatus.BAD_REQUEST,
+                request);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
@@ -64,10 +91,9 @@ public class GlobalExceptionHandler { //extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleAllUncaughtException(
             Exception exception,
             WebRequest request) {
-        final String errorMessage = "Unknown error occurred";
         return buildErrorResponse(
                 exception,
-                errorMessage,
+                "Unknown error occurred",
                 HttpStatus.INTERNAL_SERVER_ERROR,
                 request);
     }
