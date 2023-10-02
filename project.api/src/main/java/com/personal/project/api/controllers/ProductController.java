@@ -40,7 +40,7 @@ public class ProductController {
             List<ResponseProductDTO> allProducts = productService.findAllProducts();
             if(allProducts.isEmpty())
                return ResponseHandler.responseBuilder(HttpStatus.NOT_FOUND, "No products were found.", allProducts);
-            return ResponseEntity.status(HttpStatus.OK).body(allProducts);
+            return ResponseHandler.responseBuilder(HttpStatus.OK, "", allProducts);
     }
 
     @PostMapping
