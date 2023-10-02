@@ -1,5 +1,6 @@
 package com.personal.project.api.exceptions;
 
+import com.personal.project.api.services.exceptions.AuthorizationException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
@@ -17,12 +18,25 @@ import org.springframework.web.context.request.WebRequest;
 import com.personal.project.api.services.exceptions.ObjectNotFoundException;
 import org.springframework.security.core.AuthenticationException;
 
+
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class GlobalExceptionHandler { //extends ResponseEntityExceptionHandler {
 
     @Value("${server.error.include-exception}")
     private boolean printStackTrace;
+
+    @ExceptionHandler(AuthorizationException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ResponseEntity<Object> handleAuthorizationException(
+            AuthorizationException authorizationException,
+            WebRequest request) {
+        return buildErrorResponse(
+                authorizationException,
+                authorizationException.getMessage(),
+                HttpStatus.FORBIDDEN,
+                request);
+    }
 
     @ExceptionHandler(AuthenticationException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -31,7 +45,7 @@ public class GlobalExceptionHandler { //extends ResponseEntityExceptionHandler {
             WebRequest request) {
         return buildErrorResponse(
                 authenticationException,
-                "Username or password are invalid",/*authenticationException.getMessage()*/
+                "Username or password are invalid",
                 HttpStatus.UNAUTHORIZED,
                 request);
     }
