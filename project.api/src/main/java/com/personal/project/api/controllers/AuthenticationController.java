@@ -2,7 +2,7 @@ package com.personal.project.api.controllers;
 
 import com.personal.project.api.dto.user.AuthenticationDTO;
 import com.personal.project.api.dto.user.LoginResponseDTO;
-import com.personal.project.api.dto.user.RegisterDTO;
+import com.personal.project.api.dto.user.RegisterUserDTO;
 import com.personal.project.api.responses.ResponseHandler;
 import com.personal.project.api.services.AuthenticationService;
 import jakarta.validation.Valid;
@@ -27,13 +27,13 @@ public class AuthenticationController {
             return ResponseHandler.responseBuilder(HttpStatus.OK, "", new LoginResponseDTO(token));
     }
 
-    @PostMapping("register")
-    public ResponseEntity<Object> registerUser(@RequestBody @Valid RegisterDTO registerDTO) {
-            boolean userExists = authService.userExists(registerDTO.getLogin());
+    @PostMapping("/register")
+    public ResponseEntity<Object> registerUser(@RequestBody @Valid RegisterUserDTO registerUserDTO) {
+            boolean userExists = authService.userExists(registerUserDTO.getLogin());
             if(userExists)
                return ResponseHandler.responseBuilder(HttpStatus.BAD_REQUEST, "User already registered!", null);
 
-            authService.registerUser(registerDTO);
+            authService.registerUser(registerUserDTO);
 
             return ResponseHandler.responseBuilder(HttpStatus.OK, "Your registration was successful", null);
     }

@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterDTO {
+public class RegisterUserDTO {
 
     @NotBlank(message = "Login should not be empty or null.")
     private String login;
