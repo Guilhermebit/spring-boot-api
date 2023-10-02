@@ -28,7 +28,10 @@ $ git clone https://github.com/Guilhermebit/SpringBootAPI.git
 # Api EndPoints
 To test the HTTP requests below, the Postman tool was used.<br />
 Here you can download Postman: https://www.postman.com/downloads/
-+ OBS: To access the HTTP methods `POST`, `PUT` and `DELETE` the user must have the token and an "ADMIN" role.
++ The user must have the **`TOKEN`** and an **`ADMIN`** role to access the routes: 
+    + `POST /product`
+    + `PUT /product/{id}`
+    + `DELETE /product/{id}`
 ## Register a new user 
 `POST /auth/register`
 + Request (application/json)
@@ -104,8 +107,7 @@ Here you can download Postman: https://www.postman.com/downloads/
           {
                   "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
                   "name": "t-shirt",
-                  "price_in_cents": 5000,
-                  "active": true
+                  "price_in_cents": 5000
           }
           ],
            "message": "",
@@ -128,8 +130,7 @@ Here you can download Postman: https://www.postman.com/downloads/
           {
                   "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
                   "name": "t-shirt",
-                  "price_in_cents": 5000,
-                  "active": true
+                  "price_in_cents": 5000
           }
           ],
            "message": "",
@@ -152,8 +153,7 @@ Here you can download Postman: https://www.postman.com/downloads/
           {
                   "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
                   "name": "t-shirt",
-                  "price_in_cents": 5000,
-                  "active": true
+                  "price_in_cents": 5000
           }
           ],
            "message": "",
@@ -176,8 +176,7 @@ Here you can download Postman: https://www.postman.com/downloads/
           {
                   "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
                   "name": "t-shirt",
-                  "price_in_cents": 5000,
-                  "active": true
+                  "price_in_cents": 5000
           }
           ],
            "message": "",
@@ -185,7 +184,7 @@ Here you can download Postman: https://www.postman.com/downloads/
       }
       ```
 ## Update a product
-`PUT /product`
+`PUT /product/{id}`
 + Request (application/json)
     + Headers
       
@@ -195,7 +194,6 @@ Here you can download Postman: https://www.postman.com/downloads/
  
        ```json
        {
-           "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
            "name": "t-shirt blue",
            "price_in_cents": 3000
        }
@@ -210,8 +208,7 @@ Here you can download Postman: https://www.postman.com/downloads/
           {
                   "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
                   "name": "t-shirt blue",
-                  "price_in_cents": 3000,
-                  "active": true
+                  "price_in_cents": 3000
           }
           ],
            "message": "",
@@ -231,16 +228,9 @@ Here you can download Postman: https://www.postman.com/downloads/
   
       ```json
       {
-          "data": [
-          {
-                  "id": "c2fc6ab7-cdf1-46ee-be87-804df6be6731",
-                  "name": "t-shirt blue",
-                  "price_in_cents": 3000,
-                  "active": false
-          }
-          ],
-           "message": "",
-           "status": 200
+          "data": null,
+          "message": "Product successfully deleted.",
+          "status": 200
       }
       ```
 # Database
