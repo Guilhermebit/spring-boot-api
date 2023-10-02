@@ -4,11 +4,18 @@
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
-Project of an API (CRUD)
+Project of an API (CRUD) that has user authentication and the following schema in the database:
+- OneToMany - A user can have many products
+
+<p align="center">
+  <img src="https://github.com/Guilhermebit/spring-boot-api/assets/33499379/6d8f625d-1886-4893-bea1-0b431ae917ea" />
+</p>
+
 ## Tecnologies
 - SpringBoot
 - Spring MVC
 - Spring Data JPA
+- SpringSecurity
 - PostgreSQL
 - JWT
 ## Practices Adopted
