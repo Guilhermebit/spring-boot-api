@@ -11,7 +11,7 @@ Project of an API (CRUD) that has user authentication and the following schema i
   <img src="https://github.com/Guilhermebit/spring-boot-api/assets/33499379/6d8f625d-1886-4893-bea1-0b431ae917ea" />
 </p>
 
-## Tecnologies
+## Technologies
 - SpringBoot
 - Spring MVC
 - Spring Data JPA
