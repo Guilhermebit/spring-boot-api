@@ -31,9 +31,9 @@ public class SecurityConfig {
                     .authorizeHttpRequests(authorize -> authorize
                             .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                             .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
-                            .requestMatchers(HttpMethod.POST, "/product").hasRole(UserRole.ADMIN.getRole())
-                            .requestMatchers(HttpMethod.PUT, "/product/{id}").hasRole(UserRole.ADMIN.getRole())
-                            .requestMatchers(HttpMethod.DELETE, "/product/{id}").hasRole(UserRole.ADMIN.getRole())
+                            .requestMatchers(HttpMethod.POST, "/product").hasRole(UserRole.ADMIN.getRole().toUpperCase())
+                            .requestMatchers(HttpMethod.PUT, "/product/{id}").hasRole(UserRole.ADMIN.getRole().toUpperCase())
+                            .requestMatchers(HttpMethod.DELETE, "/product/{id}").hasRole(UserRole.ADMIN.getRole().toUpperCase())
                             .anyRequest().authenticated()
                     )
                     .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
