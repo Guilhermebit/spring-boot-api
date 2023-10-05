@@ -27,9 +27,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 100)
     @NotBlank()
-    @Length(min = 5 , max = 100)
     private String name;
 
     @Column(name = "price_in_cents")

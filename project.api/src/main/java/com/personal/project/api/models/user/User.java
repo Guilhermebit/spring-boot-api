@@ -2,12 +2,12 @@ package com.personal.project.api.models.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.personal.project.api.enums.UserRole;
+import com.personal.project.api.enums.converters.UserRoleConverter;
 import com.personal.project.api.models.product.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,20 +34,18 @@ public class User implements UserDetails {
     private String id;
 
     @Getter
-    @Column(name = "login", unique = true)
+    @Column(name = "login", unique = true, length = 100)
     @NotBlank()
-    @Length(min = 10, max = 50)
     private String login;
 
     @Getter
-    @Column(name = "password")
+    @Column(name = "password", length = 100)
     @NotBlank()
-    @Length(min = 10, max = 50)
     private String password;
 
-    @Column(name = "role")
+    @Column(name = "role", length = 5)
     @NotNull()
-    @Length(max = 5) // ADMIN
+    @Convert(converter = UserRoleConverter.class)
     private UserRole role;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
