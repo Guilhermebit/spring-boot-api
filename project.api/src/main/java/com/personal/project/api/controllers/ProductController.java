@@ -5,6 +5,7 @@ import com.personal.project.api.responses.ResponseHandler;
 import com.personal.project.api.dto.product.ResponseProductDTO;
 import com.personal.project.api.services.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,15 +24,15 @@ public class ProductController {
     public ResponseEntity<Object> getProductBetweenPrice(@PathVariable Integer price1, @PathVariable Integer price2) {
             List<ResponseProductDTO> listOfProducts = productService.findProductBetweenPrice(price1, price2);
             if(listOfProducts.isEmpty())
-                return ResponseHandler.responseBuilder(HttpStatus.OK, "No products were found within the declared range.", listOfProducts);
+                return ResponseHandler.responseBuilder(HttpStatus.NOT_FOUND, "No products were found within the declared range.", listOfProducts);
             return ResponseHandler.responseBuilder(HttpStatus.OK, "", listOfProducts);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getOneProduct(@PathVariable String id) {
+    public ResponseEntity<Object> getProductById(@PathVariable String id) {
             ResponseProductDTO product = productService.findUniqueProduct(id);
             if(product == null)
-                return ResponseHandler.responseBuilder(HttpStatus.OK, "Product not found.", null);
+                return ResponseHandler.responseBuilder(HttpStatus.NOT_FOUND, "Product not found.", null);
             return ResponseHandler.responseBuilder(HttpStatus.OK, "", product);
     }
 
@@ -52,8 +53,8 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateProduct(@RequestBody @Valid RequestProductDTO requestProductDTO, @PathVariable String id) {
-            ResponseProductDTO productUpdated = productService.update(requestProductDTO, id);
+    public ResponseEntity<Object> updateProduct(@PathVariable @NotBlank String id, @RequestBody @Valid RequestProductDTO requestProductDTO) {
+            ResponseProductDTO productUpdated = productService.update(id, requestProductDTO);
             if(productUpdated == null)
                 return ResponseHandler.responseBuilder(HttpStatus.OK, "Unable to update product.", null);
             return ResponseHandler.responseBuilder(HttpStatus.OK, "", productUpdated);

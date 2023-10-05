@@ -1,10 +1,13 @@
 package com.personal.project.api.models.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.personal.project.api.enums.UserRole;
 import com.personal.project.api.models.product.Product;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,14 +36,18 @@ public class User implements UserDetails {
     @Getter
     @Column(name = "login", unique = true)
     @NotBlank()
+    @Length(min = 10, max = 50)
     private String login;
 
     @Getter
     @Column(name = "password")
     @NotBlank()
+    @Length(min = 10, max = 50)
     private String password;
 
     @Column(name = "role")
+    @NotNull()
+    @Length(max = 5) // ADMIN
     private UserRole role;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
@@ -56,8 +63,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority(UserRole.ROLE_ADMIN.getRole()), new SimpleGrantedAuthority(UserRole.ROLE_USER.getRole()));
-        else return List.of(new SimpleGrantedAuthority(UserRole.ROLE_USER.getRole()));
+        if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

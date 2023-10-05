@@ -4,6 +4,7 @@ import com.personal.project.api.models.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 
 @Table(name = Product.TABLE_NAME, schema = Product.TABLE_SCHEMA)
@@ -28,10 +29,12 @@ public class Product {
 
     @Column(name = "name")
     @NotBlank()
+    @Length(min = 5 , max = 100)
     private String name;
 
     @Column(name = "price_in_cents")
     @NotNull()
+    @DecimalMax("1000000")
     private Integer price_in_cents;
 
     @Column(name = "active")

@@ -1,5 +1,6 @@
 package com.personal.project.api.exceptions;
 
+import com.fasterxml.jackson.core.JsonParseException;
 import com.personal.project.api.services.exceptions.AuthorizationException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,21 +46,21 @@ public class GlobalExceptionHandler { //extends ResponseEntityExceptionHandler {
             WebRequest request) {
         return buildErrorResponse(
                 authenticationException,
-                "Username or password are invalid",
+                authenticationException.getMessage(),
                 HttpStatus.UNAUTHORIZED,
                 request);
     }
 
     // To handle the JSON parse error Exceptions
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = { HttpMessageNotReadableException.class, JsonParseException.class })
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public ResponseEntity<Object> handleAuthenticationException(
             HttpMessageNotReadableException httpMessageNotReadableException,
             WebRequest request) {
         return buildErrorResponse(
                 httpMessageNotReadableException,
                 httpMessageNotReadableException.getMessage(),
-                HttpStatus.BAD_REQUEST,
+                HttpStatus.UNPROCESSABLE_ENTITY,
                 request);
     }
 

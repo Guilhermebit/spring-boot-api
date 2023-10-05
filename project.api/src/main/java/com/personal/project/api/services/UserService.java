@@ -2,8 +2,8 @@ package com.personal.project.api.services;
 
 import com.personal.project.api.configs.JWTUtil;
 import com.personal.project.api.models.user.User;
-import com.personal.project.api.dto.user.AuthenticationDTO;
-import com.personal.project.api.dto.user.RegisterUserDTO;
+import com.personal.project.api.dto.user.RequestUserLoginDTO;
+import com.personal.project.api.dto.user.RequestUserRegisterDTO;
 import com.personal.project.api.repositories.UserRepository;
 import com.personal.project.api.services.exceptions.AuthorizationException;
 import com.personal.project.api.services.exceptions.ObjectNotFoundException;
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 
 @Service
-public class AuthenticationService {
+public class UserService implements UserInterface {
 
     @Autowired
     private AuthenticationManager authManager;
@@ -43,7 +43,7 @@ public class AuthenticationService {
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(roleName));
     }
 
-    protected User findAuthenticatedUser() {
+    public User findAuthenticatedUser() {
         User userAuth = userAuthenticated();
         if(Objects.isNull(userAuth))
             throw new AuthorizationException("Access denied!");
@@ -57,14 +57,14 @@ public class AuthenticationService {
         return userRepository.findByLogin(login) != null;
     }
 
-    public void registerUser(RegisterUserDTO registerUserDTO) {
-        String encryptPass = new BCryptPasswordEncoder().encode(registerUserDTO.getPassword());
-        User newUser = new User(registerUserDTO.getLogin(), encryptPass, registerUserDTO.getRole());
+    public void registerUser(RequestUserRegisterDTO requestUserRegisterDTO) {
+        String encryptPass = new BCryptPasswordEncoder().encode(requestUserRegisterDTO.password());
+        User newUser = new User(requestUserRegisterDTO.login(), encryptPass, requestUserRegisterDTO.role());
         userRepository.save(newUser);
     }
 
-    public String loginUser(AuthenticationDTO authDTO) {
-        var userPass = new UsernamePasswordAuthenticationToken(authDTO.getLogin(), authDTO.getPassword());
+    public String loginUser(RequestUserLoginDTO authDTO) {
+        var userPass = new UsernamePasswordAuthenticationToken(authDTO.login(), authDTO.password());
         var auth = this.authManager.authenticate(userPass);
 
         return jwtUtil.generateToken((User)auth.getPrincipal());

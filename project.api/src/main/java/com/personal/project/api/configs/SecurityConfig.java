@@ -1,6 +1,6 @@
 package com.personal.project.api.configs;
 
-import com.personal.project.api.models.user.UserRole;
+import com.personal.project.api.enums.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

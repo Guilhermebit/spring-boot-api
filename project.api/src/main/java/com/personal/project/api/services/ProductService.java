@@ -1,8 +1,8 @@
 package com.personal.project.api.services;
 
-import com.personal.project.api.mapper.product.ProductMapper;
-import com.personal.project.api.models.product.Product;
 import com.personal.project.api.dto.product.RequestProductDTO;
+import com.personal.project.api.mapper.ProductMapper;
+import com.personal.project.api.models.product.Product;
 import com.personal.project.api.models.user.User;
 import com.personal.project.api.repositories.ProductRepository;
 import com.personal.project.api.dto.product.ResponseProductDTO;
@@ -12,7 +12,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Objects;
 
 
 @Service
@@ -22,7 +21,7 @@ public class ProductService implements ProductInterface {
     private ProductRepository productRepository;
 
     @Autowired
-    private AuthenticationService authenticationService;
+    private UserService userService;
 
     private Boolean userHasProducts(User user, Product product) {
         return product.getActive() && product.getUser().getId().equals(user.getId());
@@ -32,7 +31,7 @@ public class ProductService implements ProductInterface {
         Product product = productRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
                   "Product not found! Id: " + id + ", Type: " + Product.class.getName()));
 
-        User userAuth = authenticationService.findAuthenticatedUser();
+        User userAuth = userService.findAuthenticatedUser();
         if(!userHasProducts(userAuth, product))
            throw new AuthorizationException("Product not found.");
 
@@ -41,25 +40,19 @@ public class ProductService implements ProductInterface {
 
     @Override
     public List<ResponseProductDTO> findProductBetweenPrice(Integer price1, Integer price2) {
-        User userAuth = authenticationService.findAuthenticatedUser();
-
+        User userAuth = userService.findAuthenticatedUser();
         List<Product> products = productRepository.findByRangeOfPrices(price1, price2, userAuth.getId());
         return ProductMapper.toResponseProductDTOList(products);
     }
 
     @Override
     public ResponseProductDTO findUniqueProduct(String productId) {
-        Product product = findProductById(productId);
-        if(Objects.isNull(product))
-            return null;
-
-        return ProductMapper.mapToResponseProductDTO(product);
+        return ProductMapper.mapToResponseProductDTO(findProductById(productId));
     }
 
     @Override
     public List<ResponseProductDTO> findAllProducts() {
-        User userAuth = authenticationService.findAuthenticatedUser();
-
+        User userAuth = userService.findAuthenticatedUser();
         List<Product> products = productRepository.findAllByUserId(userAuth.getId());
         return ProductMapper.toResponseProductDTOList(products);
     }
@@ -69,22 +62,17 @@ public class ProductService implements ProductInterface {
     public ResponseProductDTO create(RequestProductDTO requestProductDTO) {
         Product product = ProductMapper.mapToProduct(requestProductDTO);
         product.setActive(true);
-        product.setUser(authenticationService.findAuthenticatedUser());
-        Product savedProduct = productRepository.save(product);
-
-        return ProductMapper.mapToResponseProductDTO(savedProduct);
+        product.setUser(userService.findAuthenticatedUser());
+        return ProductMapper.mapToResponseProductDTO(productRepository.save(product));
     }
 
     @Override
     @Transactional
-    public ResponseProductDTO update(RequestProductDTO obj, String id) {
+    public ResponseProductDTO update(String id, RequestProductDTO requestProductDTO) {
         Product product = findProductById(id);
-        product.setName(obj.getName());
-        product.setPrice_in_cents(obj.getPrice_in_cents());
-
-        Product updatedProduct = productRepository.save(product);
-
-        return ProductMapper.mapToResponseProductDTO(updatedProduct);
+        product.setName(requestProductDTO.name());
+        product.setPrice_in_cents(requestProductDTO.price_in_cents());
+        return ProductMapper.mapToResponseProductDTO(productRepository.save(product));
     }
 
     @Override

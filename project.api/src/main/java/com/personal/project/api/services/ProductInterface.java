@@ -9,6 +9,6 @@ public interface ProductInterface {
     ResponseProductDTO findUniqueProduct(String id);
     List<ResponseProductDTO> findAllProducts();
     ResponseProductDTO create(RequestProductDTO requestProductDTO);
-    ResponseProductDTO update(RequestProductDTO obj, String id);
+    ResponseProductDTO update(String id, RequestProductDTO requestProductDTO);
     void delete(String id);
 }
