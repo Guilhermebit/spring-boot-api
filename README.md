@@ -11,19 +11,21 @@ Project of an API (CRUD) that has user authentication and the following schema i
   <img src="https://github.com/Guilhermebit/spring-boot-api/assets/33499379/6d8f625d-1886-4893-bea1-0b431ae917ea" />
 </p>
 
-## Technologies
-- SpringBoot
-- Spring MVC
-- Spring Data JPA
-- SpringSecurity
-- PostgreSQL
-- JWT
+## Tecnologies
+- ✅ Java 17
+- ✅ SpringBoot
+- ✅ Spring MVC
+- ✅ Spring Data JPA
+- ✅ SpringSecurity
+- ✅ PostgreSQL
+- ✅ JWT
+- ✅ JUnit 5 + Mockito(unit tests) and MockMvc(integration tests)
 ## Practices Adopted
 - SOLID
 - Dependency Injection
 - Queries with SpringData JPA
 - Error Handling
-## Installation
+## :rocket: Installation
 1. Clone the repository:
 ```
 $ git clone https://github.com/Guilhermebit/SpringBootAPI.git
