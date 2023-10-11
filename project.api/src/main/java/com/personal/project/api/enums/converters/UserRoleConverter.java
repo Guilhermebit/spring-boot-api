@@ -5,7 +5,7 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import java.util.stream.Stream;
 
-@Converter(autoApply = true)
+@Converter(autoApply = true) // will be applied by JPA whenever necessary
 public class UserRoleConverter implements AttributeConverter<UserRole, String> {
 
     @Override

@@ -6,80 +6,74 @@ import com.personal.project.api.models.product.Product;
 import com.personal.project.api.models.user.User;
 import com.personal.project.api.repositories.ProductRepository;
 import com.personal.project.api.dto.product.ResponseProductDTO;
-import com.personal.project.api.services.exceptions.AuthorizationException;
 import com.personal.project.api.services.exceptions.ObjectNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import java.util.List;
-
+import java.util.Optional;
 
 @Service
-public class ProductService implements ProductInterface {
+@Validated
+public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
 
     @Autowired
-    private UserService userService;
+    private  UserService userService;
 
-    private Boolean userHasProducts(User user, Product product) {
-        return product.getActive() && product.getUser().getId().equals(user.getId());
+    @Autowired
+    private  ProductMapper productMapper;
+
+
+    private Product findProductById(@NotBlank String productId) {
+          User userAuth = userService.findAuthenticatedUser();
+          Optional<Product> product = productRepository.findProductByUserId(productId, userAuth.getId());
+          return product.orElseThrow(() -> new ObjectNotFoundException(
+                  "Product not found for user! Id: " + productId + ", Type: " + Product.class.getName()));
     }
 
-    private Product findProductById(String id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(
-                  "Product not found! Id: " + id + ", Type: " + Product.class.getName()));
-
-        User userAuth = userService.findAuthenticatedUser();
-        if(!userHasProducts(userAuth, product))
-           throw new AuthorizationException("Product not found.");
-
-        return product;
-    }
-
-    @Override
-    public List<ResponseProductDTO> findProductBetweenPrice(Integer price1, Integer price2) {
+    public List<ResponseProductDTO> findProductBetweenPrice(@Positive @NotNull Integer price1, @Positive @NotNull Integer price2) {
         User userAuth = userService.findAuthenticatedUser();
         List<Product> products = productRepository.findByRangeOfPrices(price1, price2, userAuth.getId());
-        return ProductMapper.toResponseProductDTOList(products);
+        return productMapper.toResponseProductDTOList(products);
     }
 
-    @Override
-    public ResponseProductDTO findUniqueProduct(String productId) {
-        return ProductMapper.mapToResponseProductDTO(findProductById(productId));
+    public ResponseProductDTO findUniqueProduct(@NotBlank String productId) {
+        return productMapper.mapToResponseProductDTO(findProductById(productId));
     }
 
-    @Override
     public List<ResponseProductDTO> findAllProducts() {
         User userAuth = userService.findAuthenticatedUser();
         List<Product> products = productRepository.findAllByUserId(userAuth.getId());
-        return ProductMapper.toResponseProductDTOList(products);
+        return productMapper.toResponseProductDTOList(products);
     }
 
-    @Override
     @Transactional
-    public ResponseProductDTO create(RequestProductDTO requestProductDTO) {
-        Product product = ProductMapper.mapToProduct(requestProductDTO);
+    public ResponseProductDTO create(@Valid RequestProductDTO requestProductDTO) {
+        Product product = productMapper.mapToProduct(requestProductDTO);
         product.setActive(true);
         product.setUser(userService.findAuthenticatedUser());
-        return ProductMapper.mapToResponseProductDTO(productRepository.save(product));
+        return productMapper.mapToResponseProductDTO(productRepository.save(product));
     }
 
-    @Override
     @Transactional
-    public ResponseProductDTO update(String id, RequestProductDTO requestProductDTO) {
+    public ResponseProductDTO update(@NotBlank String id, @Valid RequestProductDTO requestProductDTO) {
         Product product = findProductById(id);
         product.setName(requestProductDTO.name());
         product.setPrice_in_cents(requestProductDTO.price_in_cents());
-        return ProductMapper.mapToResponseProductDTO(productRepository.save(product));
+        return productMapper.mapToResponseProductDTO(productRepository.save(product));
     }
 
-    @Override
     @Transactional
-    public void delete(String id) {
-        Product product = findProductById(id);
-        product.setActive(false);
+    public void delete(@NotBlank String id) {
+        findProductById(id).setActive(false);
     }
 
 }

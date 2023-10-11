@@ -4,23 +4,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.personal.project.api.enums.UserRole;
 import com.personal.project.api.enums.converters.UserRoleConverter;
 import com.personal.project.api.models.product.Product;
-import jakarta.persistence.*;
+import jakarta.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Convert;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.FetchType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Table(name= User.TABLE_NAME, schema = User.TABLE_SCHEMA)
 @Entity(name="user")
 
 
-@Setter(AccessLevel.NONE)
+@Getter
+@Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class User implements UserDetails {
 
@@ -28,17 +41,14 @@ public class User implements UserDetails {
     public static final String TABLE_SCHEMA = "sch_application";
 
     @Id
-    @Getter
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Getter
     @Column(name = "login", unique = true, length = 100)
     @NotBlank()
     private String login;
 
-    @Getter
     @Column(name = "password", length = 100)
     @NotBlank()
     private String password;
@@ -51,7 +61,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     //@JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Product> product;
+    private Set<Product> product = new HashSet<>();
 
     public User(String login, String password, UserRole role) {
         this.login = login;

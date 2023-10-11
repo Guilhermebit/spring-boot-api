@@ -6,22 +6,28 @@ import com.personal.project.api.dto.product.ResponseProductDTO;
 import com.personal.project.api.services.ProductService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("/product")
 public class ProductController {
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
 
     @GetMapping("/value/{price1}/{price2}")
-    public ResponseEntity<Object> getProductBetweenPrice(@PathVariable Integer price1, @PathVariable Integer price2) {
+    public ResponseEntity<Object> getProductBetweenPrice(@PathVariable @Positive @NotNull Integer price1, @PathVariable @Positive @NotNull Integer price2) {
             List<ResponseProductDTO> listOfProducts = productService.findProductBetweenPrice(price1, price2);
             if(listOfProducts.isEmpty())
                 return ResponseHandler.responseBuilder(HttpStatus.NOT_FOUND, "No products were found within the declared range.", listOfProducts);
@@ -29,7 +35,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getProductById(@PathVariable String id) {
+    public ResponseEntity<Object> getProductById(@PathVariable @NotBlank String id) {
             ResponseProductDTO product = productService.findUniqueProduct(id);
             if(product == null)
                 return ResponseHandler.responseBuilder(HttpStatus.NOT_FOUND, "Product not found.", null);
@@ -61,7 +67,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable String id) {
+    public ResponseEntity<Object> deleteProduct(@PathVariable @NotBlank String id) {
             productService.delete(id);
             return ResponseHandler.responseBuilder(HttpStatus.OK, "Product successfully deleted.", null);
     }

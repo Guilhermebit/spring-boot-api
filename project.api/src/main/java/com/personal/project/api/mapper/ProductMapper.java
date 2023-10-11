@@ -3,12 +3,14 @@ package com.personal.project.api.mapper;
 import com.personal.project.api.dto.product.RequestProductDTO;
 import com.personal.project.api.models.product.Product;
 import com.personal.project.api.dto.product.ResponseProductDTO;
+import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Component
 public class ProductMapper {
 
-    public static Product mapToProduct(RequestProductDTO requestProductDTO) {
+    public Product mapToProduct(RequestProductDTO requestProductDTO) {
         if(requestProductDTO == null)
            return null;
 
@@ -18,20 +20,7 @@ public class ProductMapper {
         );
     }
 
-//    public static RequestProductDTO mapToProductDTO(Product product) {
-//        return new RequestProductDTO(
-//                product.getName(),
-//                product.getPrice_in_cents()
-//        );
-//    }
-//
-//    public static List<RequestProductDTO> toRequestProductDTOList(List<Product> entities) {
-//        return entities.stream()
-//                .map(ProductMapper::mapToProductDTO)
-//                .collect(Collectors.toList());
-//    }
-
-    public static ResponseProductDTO mapToResponseProductDTO(Product product) {
+    public ResponseProductDTO mapToResponseProductDTO(Product product) {
         if(product == null)
            return null;
 
@@ -42,9 +31,9 @@ public class ProductMapper {
         );
     }
 
-    public static List<ResponseProductDTO> toResponseProductDTOList(List<Product> entities) {
+    public List<ResponseProductDTO> toResponseProductDTOList(List<Product> entities) {
         return entities.stream()
-                .map(ProductMapper::mapToResponseProductDTO)
+                .map(this::mapToResponseProductDTO)
                 .collect(Collectors.toList());
     }
 }

@@ -4,6 +4,7 @@ import com.personal.project.api.models.product.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, String> {
 
@@ -12,5 +13,8 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
     @Query(value = "SELECT * FROM sch_application.product WHERE active = true AND user_id = ?1", nativeQuery = true)
     List<Product> findAllByUserId(String userId);
+
+    @Query(value = "SELECT * FROM sch_application.product WHERE active = true AND id = ?1 AND user_id = ?2", nativeQuery = true)
+    Optional<Product> findProductByUserId(String productId, String userId);
 
 }

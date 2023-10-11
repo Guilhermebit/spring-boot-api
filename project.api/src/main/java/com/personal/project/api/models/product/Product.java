@@ -1,10 +1,21 @@
 package com.personal.project.api.models.product;
 
 import com.personal.project.api.models.user.User;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.*;
-import org.hibernate.validator.constraints.Length;
+import jakarta.persistence.Table;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 
 @Table(name = Product.TABLE_NAME, schema = Product.TABLE_SCHEMA)
@@ -14,7 +25,6 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Product {
 
@@ -22,7 +32,7 @@ public class Product {
     public static final String TABLE_SCHEMA = "sch_application";
 
     @Id
-    @Setter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)
     @Column(name = "id", unique = true)
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -36,6 +46,7 @@ public class Product {
     @DecimalMax("1000000")
     private Integer price_in_cents;
 
+    @NotNull
     @Column(name = "active")
     private Boolean active;
 
