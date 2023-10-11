@@ -2,6 +2,8 @@ package com.personal.project.api.exceptions;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.personal.project.api.services.exceptions.AuthorizationException;
+import com.personal.project.api.services.exceptions.BusinessException;
+import jakarta.validation.ConstraintViolationException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
@@ -54,13 +56,25 @@ public class GlobalExceptionHandler { //extends ResponseEntityExceptionHandler {
     // To handle the JSON parse error Exceptions
     @ExceptionHandler(value = { HttpMessageNotReadableException.class, JsonParseException.class })
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public ResponseEntity<Object> handleAuthenticationException(
+    public ResponseEntity<Object> handleHttpMessageNotReadableException(
             HttpMessageNotReadableException httpMessageNotReadableException,
             WebRequest request) {
         return buildErrorResponse(
                 httpMessageNotReadableException,
                 httpMessageNotReadableException.getMessage(),
                 HttpStatus.UNPROCESSABLE_ENTITY,
+                request);
+    }
+
+    @ExceptionHandler(value = BusinessException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Object> handleBusinessException(
+            BusinessException businessException,
+            WebRequest request) {
+        return buildErrorResponse(
+                businessException,
+                businessException.getMessage(),
+                HttpStatus.BAD_REQUEST,
                 request);
     }
 
@@ -86,6 +100,18 @@ public class GlobalExceptionHandler { //extends ResponseEntityExceptionHandler {
                 dataBindingViolationException,
                 dataBindingViolationException.getMessage(),
                 HttpStatus.CONFLICT,
+                request);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseEntity<Object> handleConstraintViolationException(
+            ConstraintViolationException constraintViolationException,
+            WebRequest request) {
+        return buildErrorResponse(
+                constraintViolationException,
+                constraintViolationException.getMessage(),
+                HttpStatus.UNPROCESSABLE_ENTITY,
                 request);
     }
 
