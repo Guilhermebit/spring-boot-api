@@ -4,7 +4,7 @@
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
-Projeto de uma API (CRUD) feita com o framework SpringBoot
+API project (CRUD) made with the SpringBoot framework
 
 ## Tecnologies
 - ✅ Java 17
