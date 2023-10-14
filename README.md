@@ -4,12 +4,7 @@
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
-Project of an API (CRUD) that has user authentication and the following schema in the database:
-- OneToMany - A user can have many products
-
-<p align="center">
-  <img src="https://github.com/Guilhermebit/spring-boot-api/assets/33499379/6d8f625d-1886-4893-bea1-0b431ae917ea" />
-</p>
+Projeto de uma API (CRUD) feita com o framework SpringBoot
 
 ## Tecnologies
 - ✅ Java 17
@@ -55,14 +50,14 @@ Here you can download Postman: https://www.postman.com/downloads/
        }
        ```
 
-+ Response 200 (application/json)
++ Response 201 (application/json)
     + Body
   
       ```json
       {
            "data": "null",
            "message": "Your registration was successful",
-           "status": 200
+           "status": 201
       }
       ```
 ## Login 
@@ -232,14 +227,14 @@ Here you can download Postman: https://www.postman.com/downloads/
       
          Authorization: Bearer [access_token]
 
-+ Response 200 (application/json)
++ Response 204 (application/json)
     + Body
   
       ```json
       {
           "data": null,
           "message": "Product successfully deleted.",
-          "status": 200
+          "status": 204
       }
       ```
 # Database
