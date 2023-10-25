@@ -11,10 +11,7 @@ import com.personal.project.api.repositories.ProductRepository;
 import com.personal.project.api.services.exceptions.ObjectNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import com.personal.project.api.services.ProductService;
@@ -33,8 +30,7 @@ import static org.mockito.BDDMockito.then;
 import static org.mockito.Mockito.verify;
 
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProductServiceTest {
 
     @Autowired
@@ -62,7 +58,6 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(1)
     @DisplayName("Should return a product through a range of prices")
     void testFindProductBetweenPrice() {
         // Arrange
@@ -78,11 +73,21 @@ public class ProductServiceTest {
     }
 
     /**
+     * Method under test: {@link ProductService#findProductBetweenPrice(Integer, Integer)}
+     */
+
+    @Test
+    @DisplayName("Should throw exception when values are not valid - findProductBetweenPrice")
+    void testFindProductBetweenPriceInvalid() {
+        assertThrows(ConstraintViolationException.class, () -> productService.findProductBetweenPrice(null, null));
+        assertThrows(ConstraintViolationException.class, () -> productService.findProductBetweenPrice(-100, -1000));
+    }
+
+    /**
      * Method under test: {@link ProductService#findUniqueProduct(String)}
      */
 
     @Test
-    @Order(2)
     @DisplayName("Should return a product by id")
     void testFindById() {
         // Arrange
@@ -102,11 +107,10 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(3)
     @DisplayName("Should throw NotFound exception when product not found")
     void testFindByIdNotFound() {
         when(productRepository.findProductByUserId(anyString(), anyString())).thenReturn(Optional.empty());
-        assertThrows(ObjectNotFoundException.class, () -> productService.findUniqueProduct(UTestData.PRODUCT_ID));
+        assertThrows(ObjectNotFoundException.class, () -> productService.findUniqueProduct("0123456789"));
         verify(productRepository).findProductByUserId(anyString(), anyString());
     }
 
@@ -115,7 +119,6 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(4)
     @DisplayName("Should throw exception when id is not valid - findById")
     void testFindByIdInvalid() {
         assertThrows(ConstraintViolationException.class, () -> this.productService.findUniqueProduct(null));
@@ -126,7 +129,6 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(5)
     @DisplayName("Should return a list of products")
     void testFindAll() {
         // Arrange
@@ -147,7 +149,6 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(6)
     @DisplayName("Should create a product")
     void testCreateProduct() {
          // Arrange
@@ -168,7 +169,6 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(7)
     @DisplayName("Should throw an exception when creating an invalid product")
     void testCreateInvalid() {
         List<RequestProductDTO> requestProductDTO = UTestData.createInvalidProductRequest();
@@ -184,7 +184,6 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(8)
     @DisplayName("Should update a product")
     void testUpdateProduct() {
         // Arrange
@@ -207,7 +206,6 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(9)
     @DisplayName("Should throw an exception when updating an invalid product ID")
     void testUpdateNotFound() {
         // Arrange
@@ -219,7 +217,7 @@ public class ProductServiceTest {
         when(productRepository.findProductByUserId(anyString(), anyString())).thenReturn(Optional.of(product));
 
         // Assert
-        assertThrows(ObjectNotFoundException.class, () -> productService.update(UTestData.PRODUCT_ID, requestProductDTO));
+        assertThrows(ObjectNotFoundException.class, () -> productService.update("0123456789", requestProductDTO));
         verify(productRepository).save(any());
         verify(productRepository).findProductByUserId(anyString(), anyString());
     }
@@ -229,7 +227,6 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(10)
     @DisplayName("Should throw exception when id is not valid - update")
     void testUpdateInvalid() {
         RequestProductDTO requestProductDTO = UTestData.createValidProductRequest();
@@ -240,7 +237,7 @@ public class ProductServiceTest {
         // valid id and invalid product
         List<RequestProductDTO> productDTOList = UTestData.createInvalidProductRequest();
         for(RequestProductDTO productDTO : productDTOList)
-            assertThrows(ConstraintViolationException.class, () -> productService.update(UTestData.PRODUCT_ID, productDTO));
+            assertThrows(ConstraintViolationException.class, () -> productService.update("0123456789", productDTO));
 
         // invalid id and invalid course
         for(RequestProductDTO productDTO : productDTOList)
@@ -254,7 +251,6 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(11)
     @DisplayName("Should soft delete a product")
     void testDeleteProduct() {
         // Arrange
@@ -273,12 +269,11 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(12)
     @DisplayName("Should return empty when product not found - delete")
     void testDeleteNotFound() {
         when(productRepository.findProductByUserId(anyString(), anyString())).thenThrow(new ObjectNotFoundException("Product not found!"));
 
-        assertThrows(ObjectNotFoundException.class, () -> productService.delete(UTestData.PRODUCT_ID));
+        assertThrows(ObjectNotFoundException.class, () -> productService.delete("0123456789"));
         verify(productRepository).findProductByUserId(anyString(), anyString());
     }
 
@@ -287,7 +282,6 @@ public class ProductServiceTest {
      */
 
     @Test
-    @Order(13)
     @DisplayName("Should throw exception when id is not valid - delete")
     void testDeleteInvalid() {
         assertThrows(ConstraintViolationException.class, () -> this.productService.delete(null));

@@ -5,10 +5,7 @@ import com.personal.project.api.configs.JWTUtil;
 import com.personal.project.api.dto.product.RequestProductDTO;
 import com.personal.project.api.enums.UserRole;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer;
 import com.personal.project.api.models.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +21,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
 @ExtendWith(SpringExtension.class)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc//(addFilters = false)
 class ProductTest {
@@ -46,7 +42,6 @@ class ProductTest {
 	}
 
 	@Test
-	@Order(1)
 	@DisplayName("Find products by an range")
 	void testFindProductBetweenPrice() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders
@@ -57,7 +52,6 @@ class ProductTest {
 	}
 
 	@Test
-	@Order(2)
 	@DisplayName("Find a product by id")
 	void findUniqueProduct() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders
@@ -68,7 +62,6 @@ class ProductTest {
 	}
 
 	@Test
-	@Order(3)
 	@DisplayName("List all products")
 	void testAllProducts() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders
@@ -79,7 +72,6 @@ class ProductTest {
 	}
 
 	@Test
-	@Order(4)
 	@DisplayName("Create product")
 	void testCreateProduct() throws Exception {
 		RequestProductDTO requestProduct = new RequestProductDTO(ITestData.PRODUCT_NAME, 20000);
@@ -94,7 +86,6 @@ class ProductTest {
 	}
 
 	@Test
-	@Order(5)
 	@DisplayName("Update product")
 	void testUpdateProduct() throws Exception {
 		RequestProductDTO requestProduct = new RequestProductDTO(ITestData.PRODUCT_NAME, 15000);
@@ -109,13 +100,12 @@ class ProductTest {
 	}
 
 	@Test
-	@Order(6)
 	@DisplayName("Delete product")
 	void testDeleteProduct() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders
 						.delete(ITestData.ROUTE_PRODUCT_ID, ITestData.ID)
 						.header("Authorization","Bearer " + token))
-			   .andExpect(MockMvcResultMatchers.status().isOk())
+			   .andExpect(MockMvcResultMatchers.status().isNoContent())
 			   .andDo(MockMvcResultHandlers.print());
 	}
 

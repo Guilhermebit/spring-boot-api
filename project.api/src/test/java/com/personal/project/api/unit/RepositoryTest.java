@@ -4,15 +4,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.personal.project.api.models.product.Product;
 import com.personal.project.api.repositories.ProductRepository;
 import com.personal.project.api.repositories.UserRepository;
-import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 import java.util.Optional;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.DisplayName;
 
 
-@SpringBootTest
+/**
+ * This is a sample class to test the UserRepository and ProductRepository.
+ * Only additional methods to the interface should be tested.
+ */
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class RepositoryTest {
 
     @Autowired
@@ -26,7 +32,6 @@ public class RepositoryTest {
      */
 
     @Test
-    @Order(1)
     @DisplayName("Should return a user login")
     void testFindByLogin() {
         UserDetails user = userRepository.findByLogin(UTestData.LOGIN_ADMIN);
@@ -39,7 +44,6 @@ public class RepositoryTest {
      */
 
     @Test
-    @Order(2)
     @DisplayName("Should return a product through a range of prices")
     void testFindByRangeOfPrices() {
         List<Product> productList = productRepository.findByRangeOfPrices(1, 17000, UTestData.USER_ID);
@@ -52,7 +56,6 @@ public class RepositoryTest {
      */
 
     @Test
-    @Order(3)
     @DisplayName("Should return a product by id")
     void testFindProductByUserId() {
         Optional<Product> product = productRepository.findProductByUserId(UTestData.PRODUCT_ID, UTestData.USER_ID);
@@ -65,7 +68,6 @@ public class RepositoryTest {
      */
     
     @Test
-    @Order(4)
     @DisplayName("Should find all active products by user")
     void testFindAllByUserId() {
         List<Product> productList = productRepository.findAllByUserId(UTestData.USER_ID);

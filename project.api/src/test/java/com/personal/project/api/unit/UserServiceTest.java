@@ -12,14 +12,12 @@ import com.personal.project.api.services.exceptions.AuthorizationException;
 import com.personal.project.api.services.exceptions.BusinessException;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer;
 import com.personal.project.api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
@@ -32,8 +30,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserServiceTest {
 
     @Autowired
@@ -46,8 +43,10 @@ public class UserServiceTest {
     private UserMapper userMapper;
 
     @MockBean
-    //@Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
 
     /**
@@ -55,15 +54,14 @@ public class UserServiceTest {
      */
 
     @Test
-    @Order(1)
     @DisplayName("Should register a user")
     void testRegisterUser() {
         User userObj = UTestData.createValidUser();
-        RequestUserRegisterDTO requestUserRegisterDTO = UTestData.createValidUserRequest();
+        RequestUserRegisterDTO requestUserRegisterDTO = UTestData.createValidUserRegisterReq();
 
         when(userRepository.save(any())).thenReturn(userObj);
 
-        ResponseUserRegisterDTO responseUserDTO =  userService.registerUser(requestUserRegisterDTO);
+        ResponseUserRegisterDTO responseUserDTO = userService.registerUser(requestUserRegisterDTO);
 
         assertEquals(userMapper.mapToResponseUserRegisterDTO(userObj), responseUserDTO);
         verify(userRepository).save(any());
@@ -74,10 +72,9 @@ public class UserServiceTest {
      */
 
     @Test
-    @Order(2)
     @DisplayName("Should throw an exception when creating an invalid user")
     void testRegisterInvalid() {
-        List<RequestUserRegisterDTO> userDTOList = UTestData.createInvalidUserRequest();
+        List<RequestUserRegisterDTO> userDTOList = UTestData.createInvalidUserRegisterReq();
         for (RequestUserRegisterDTO registerUser : userDTOList) {
              assertThrows(ConstraintViolationException.class, () -> userService.registerUser(registerUser));
         }
@@ -89,10 +86,9 @@ public class UserServiceTest {
      */
 
     @Test
-    @Order(3)
     @DisplayName("Should throw an exception when creating a duplicate login")
     void testRegisterSameLogin() {
-        RequestUserRegisterDTO requestUserRegisterDTO = UTestData.createValidUserRequest();
+        RequestUserRegisterDTO requestUserRegisterDTO = UTestData.createValidUserRegisterReq();
 
         when(userRepository.findByLogin(anyString())).thenReturn(UTestData.createValidUser());
 
@@ -107,7 +103,6 @@ public class UserServiceTest {
      */
 
     @Test
-    @Order(4)
     @DisplayName("Should login a user")
     void testLoginUser() {
         // Arrange
@@ -127,7 +122,6 @@ public class UserServiceTest {
      */
 
     @Test
-    @Order(5)
     @DisplayName("Should throw Authorization exception when access denied")
     void testAccessDenied() {
         Exception exception = assertThrows(AuthorizationException.class, () -> userService.findAuthenticatedUser());
