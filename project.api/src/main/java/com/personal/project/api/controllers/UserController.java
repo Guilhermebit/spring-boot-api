@@ -13,7 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;;
+import org.springframework.web.bind.annotation.RestController;
 
 @Validated
 @RestController
@@ -31,7 +31,7 @@ public class UserController {
             ResponseUserRegisterDTO user = userService.registerUser(requestUserRegisterDTO);
             if(user == null)
                 return ResponseHandler.responseBuilder(HttpStatus.OK, "Unable to register user!", null);
-            return ResponseHandler.responseBuilder(HttpStatus.OK, "Your registration was successful", null);
+            return ResponseHandler.responseBuilder(HttpStatus.CREATED, "Your registration was successful", null);
     }
 
     @PostMapping("/login")

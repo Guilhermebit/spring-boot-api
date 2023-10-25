@@ -54,7 +54,7 @@ public class ProductController {
     public ResponseEntity<Object> saveProduct(@RequestBody @Valid RequestProductDTO requestProductDTO) {
             ResponseProductDTO productCreated = productService.create(requestProductDTO);
             if(productCreated == null)
-                return ResponseHandler.responseBuilder(HttpStatus.OK, "Unable to register product.", null);
+                return ResponseHandler.responseBuilder(HttpStatus.NOT_FOUND, "Unable to register product.", null);
             return ResponseHandler.responseBuilder(HttpStatus.CREATED, "", productCreated);
     }
 
@@ -62,14 +62,14 @@ public class ProductController {
     public ResponseEntity<Object> updateProduct(@PathVariable @NotBlank String id, @RequestBody @Valid RequestProductDTO requestProductDTO) {
             ResponseProductDTO productUpdated = productService.update(id, requestProductDTO);
             if(productUpdated == null)
-                return ResponseHandler.responseBuilder(HttpStatus.OK, "Unable to update product.", null);
+                return ResponseHandler.responseBuilder(HttpStatus.NOT_FOUND, "Unable to update product.", null);
             return ResponseHandler.responseBuilder(HttpStatus.OK, "", productUpdated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteProduct(@PathVariable @NotBlank String id) {
             productService.delete(id);
-            return ResponseHandler.responseBuilder(HttpStatus.OK, "Product successfully deleted.", null);
+            return ResponseHandler.responseBuilder(HttpStatus.NO_CONTENT, "Product successfully deleted.", null);
     }
 
 }
