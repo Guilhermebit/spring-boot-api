@@ -1,3 +1,10 @@
+-- ----------------------------
+-- Schema for db_api
+-- ----------------------------
+CREATE SCHEMA IF NOT EXISTS sch_application;
+-- ----------------------------
+-- Table structure for product
+-- ----------------------------
 CREATE TABLE db_api.sch_application.product (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     name VARCHAR(100) NOT NULL,
