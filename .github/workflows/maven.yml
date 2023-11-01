@@ -30,7 +30,7 @@ jobs:
         cache: 'maven'
         
     - name: Build image
-      run: mvn clean install
+      run: mvn -B package --file project.api/pom.xml
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
