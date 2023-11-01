@@ -28,11 +28,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         cache: 'maven'
-
-    - name: Make Maven Wrapper executable
-      if: contains(matrix.os, 'win') == false
-      run: chmod +x ./mvnw
-
+        
     - name: Build image
       run: ./mvnw clean install
 
