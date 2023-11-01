@@ -32,18 +32,14 @@ jobs:
     - name: Build image
       run: mvn -B package --file project.api/pom.xml
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+    - name: Build Docker image
+      run: |
+        docker build -t projectapi-app -f project.api/Dockerfile .
+        docker tag projectapi-app guibitencurt/spring-boot-api-ci:app-v1.0
 
     - name: Login to Docker Hub
-      uses: docker/login-action@v3
-      with:
-       username: ${{ secrets.DOCKER_HUB_USERNAME }}
-       password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+      run: echo ${{ secrets.DOCKER_HUB_PASSWORD }} | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
 
-    - name: Build and Push
-      uses: docker/build-push-action@v3
-      with:
-       push: true
-       repository: guibitencurt/spring-boot-api-ci
-       tags: app-v1.0
+    - name: Push Docker image to Docker Hub
+      run: docker push guibitencurt/spring-boot-api-ci:app-v1.0
+      
