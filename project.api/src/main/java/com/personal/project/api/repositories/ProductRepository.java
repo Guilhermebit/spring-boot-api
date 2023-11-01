@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, String> {
 
-    @Query(value = "SELECT * FROM sch_application.product WHERE price_in_cents BETWEEN ?1 AND ?2 AND user_id = ?3", nativeQuery = true)
+    @Query(value = "SELECT * FROM sch_application.product WHERE price_in_cents BETWEEN ?1 AND ?2 AND active = true AND user_id = ?3", nativeQuery = true)
     List<Product> findByRangeOfPrices(Integer price1, Integer price2, String userId);
 
     @Query(value = "SELECT * FROM sch_application.product WHERE active = true AND user_id = ?1", nativeQuery = true)

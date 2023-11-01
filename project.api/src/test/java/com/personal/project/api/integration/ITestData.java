@@ -8,9 +8,11 @@ public class ITestData {
 
     public static final String PASSWORD = "1234";
 
-    public static final String ID = "49c74b02-3f7a-4af6-9b72-04622769adc1";
+    public static final String ID = "857240ea-e00e-47e0-9f7a-824055c5c0bf";
 
-    public static final String PRODUCT_NAME = "Multilaser Wireless Gamer Headset";
+    public static final String PRODUCT_NAME_CREATE = "Playstation 5";
+
+    public static final String PRODUCT_NAME_UPDATE = "Playstation 3";
 
     public static final String ENCODING = "UTF-8";
 

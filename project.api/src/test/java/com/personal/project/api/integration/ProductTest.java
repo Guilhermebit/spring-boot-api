@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 
+@ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc//(addFilters = false)
@@ -74,7 +76,7 @@ class ProductTest {
 	@Test
 	@DisplayName("Create product")
 	void testCreateProduct() throws Exception {
-		RequestProductDTO requestProduct = new RequestProductDTO(ITestData.PRODUCT_NAME, 20000);
+		RequestProductDTO requestProduct = new RequestProductDTO(ITestData.PRODUCT_NAME_CREATE, 500000);
 		mockMvc.perform(MockMvcRequestBuilders
 						.post(ITestData.ROUTE_PRODUCT)
 						.header("Authorization","Bearer " + token)
@@ -88,7 +90,7 @@ class ProductTest {
 	@Test
 	@DisplayName("Update product")
 	void testUpdateProduct() throws Exception {
-		RequestProductDTO requestProduct = new RequestProductDTO(ITestData.PRODUCT_NAME, 15000);
+		RequestProductDTO requestProduct = new RequestProductDTO(ITestData.PRODUCT_NAME_UPDATE, 50000);
 		mockMvc.perform(MockMvcRequestBuilders
 						.put(ITestData.ROUTE_PRODUCT_ID, ITestData.ID)
 						.header("Authorization","Bearer " + token)
