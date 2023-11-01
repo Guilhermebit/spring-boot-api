@@ -42,7 +42,7 @@ jobs:
       uses: docker/build-push-action@v3
       with:
        push: true
-       dockerfile: project.api/Dockerfile
+       dockerfile: project.api/Dockerfile .
        repository: guibitencurt/spring-boot-api-ci
        tags: app-v1.0
       
