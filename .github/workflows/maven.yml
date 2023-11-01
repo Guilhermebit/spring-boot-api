@@ -44,6 +44,6 @@ jobs:
        file: project.api/Dockerfile 
        push: true
        registry: docker.io
-       repository: guibitencurt/spring-boot-api-ci
-       tags: app-v1.0
+       tags: |
+         guibitencurt/spring-boot-api-ci:app-v1.0
       
