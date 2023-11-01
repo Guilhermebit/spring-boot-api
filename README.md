@@ -1,7 +1,7 @@
-# SpringBootAPI
+# Spring Boot API
 [![Java CI with Maven](https://github.com/Guilhermebit/spring-boot-api/actions/workflows/maven.yml/badge.svg)](https://github.com/Guilhermebit/spring-boot-api/actions/workflows/maven.yml)
 
-API project (CRUD) made with the SpringBoot framework
+Project develop with the Spring Boot framework
 
 ## Tecnologies
 - ✅ Java 17
@@ -11,21 +11,33 @@ API project (CRUD) made with the SpringBoot framework
 - ✅ SpringSecurity
 - ✅ PostgreSQL
 - ✅ JWT
+- ✅ Docker
 - ✅ JUnit 5 + Mockito(unit tests) and MockMvc(integration tests)
 ## Practices Adopted
 - SOLID
+- Containerization with Docker
 - Dependency Injection
 - Queries with SpringData JPA
 - Error Handling
 ## :rocket: Installation
 1. Clone the repository:
 ```
-$ git clone https://github.com/Guilhermebit/SpringBootAPI.git
+$ git clone https://github.com/Guilhermebit/spring-boot-api.git
 ```
 2. Install dependencies with Maven
+
+3. Install docker: https://docs.docker.com/engine/install/
+
+4. Run the following command:
+```
+./mvnw clean install
+```
 ## Usage
-1. Start application with Maven
-2. The API will be accessible at http://localhost:8080
+1. Run the following command:
+```
+docker compose up 
+```
+2. The API will be accessible at http://localhost:8081
 # Api EndPoints
 To test the HTTP requests below, the Postman tool was used.<br />
 Here you can download Postman: https://www.postman.com/downloads/
@@ -234,6 +246,3 @@ Here you can download Postman: https://www.postman.com/downloads/
           "status": 204
       }
       ```
-# Database
-PostgreSQL was used as database for the project, and the migrations was managed using Flyway.<br />
-Here you can download PostgreSQL: https://www.postgresql.org/download/
