@@ -34,7 +34,7 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t projectapi-app .
+        docker build -t projectapi-app -f Dockerfile .
         docker tag projectapi-app guibitencurt/spring-boot-api-ci:app-v1.0
 
     - name: Login to Docker Hub
