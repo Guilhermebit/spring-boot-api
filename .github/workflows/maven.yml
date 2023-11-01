@@ -40,8 +40,9 @@ jobs:
     - name: Build and Push
       uses: docker/build-push-action@v3
       with:
+       context: project.api
+       file: project.api/Dockerfile 
        push: true
-       file: ./Dockerfile 
        registry: docker.io
        repository: guibitencurt/spring-boot-api-ci
        tags: app-v1.0
