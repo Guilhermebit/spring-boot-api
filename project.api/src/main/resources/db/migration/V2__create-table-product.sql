@@ -5,7 +5,7 @@ CREATE SCHEMA IF NOT EXISTS sch_application;
 -- ----------------------------
 -- Table structure for product
 -- ----------------------------
-CREATE TABLE db_api.sch_application.product (
+CREATE TABLE IF NOT EXISTS db_api.sch_application.product (
     id TEXT PRIMARY KEY UNIQUE NOT NULL,
     name VARCHAR(100) NOT NULL,
     price_in_cents INTEGER NOT NULL,

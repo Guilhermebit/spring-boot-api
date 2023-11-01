@@ -5,7 +5,7 @@ CREATE SCHEMA IF NOT EXISTS sch_application;
 -- ----------------------------
 -- Table structure for user
 -- ----------------------------
-CREATE TABLE db_api.sch_application.tb_user (
+CREATE TABLE IF NOT EXISTS db_api.sch_application.tb_user (
      id TEXT PRIMARY KEY UNIQUE NOT NULL,
      login VARCHAR(100) NOT NULL UNIQUE,
      password VARCHAR(100) NOT NULL,
