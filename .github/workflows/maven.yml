@@ -27,7 +27,6 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: 'maven'
         
     - name: Build image
       run: mvn -B package --file project.api/pom.xml
@@ -42,7 +41,9 @@ jobs:
       uses: docker/build-push-action@v3
       with:
        push: true
-       dockerfile: project.api/Dockerfile .
+       context: .
+       registry: docker.io
+       dockerfile: Dockerfile 
        repository: guibitencurt/spring-boot-api-ci
        tags: app-v1.0
       
