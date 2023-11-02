@@ -1,7 +1,9 @@
 # Spring Boot API
 [![Java CI with Maven](https://github.com/Guilhermebit/spring-boot-api/actions/workflows/maven.yml/badge.svg)](https://github.com/Guilhermebit/spring-boot-api/actions/workflows/maven.yml)
 
-Project develop with the Spring Boot framework
+Welcome to my Spring Boot app!
+
+This project was developed to demonstrate how to build an API using Spring Boot. It has table relationships in the database and comprehensive unit and integration testing.
 
 ## Tecnologies
 - ✅ Java 17
