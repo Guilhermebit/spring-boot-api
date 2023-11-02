@@ -43,7 +43,6 @@ jobs:
        context: project.api
        file: project.api/Dockerfile 
        push: true
-       registry: docker.io
        tags: |
          guibitencurt/spring-boot-api-ci:${{github.run_number}}
          guibitencurt/spring-boot-api-ci:latest
