@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@4.1.1
+      uses: actions/checkout@3
 
     - name: Set up JDK
       uses: actions/setup-java@v3.13.0
@@ -38,7 +38,7 @@ jobs:
        password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
     - name: Build and Push
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v3
       with:
        context: project.api
        file: project.api/Dockerfile 
